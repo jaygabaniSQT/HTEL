@@ -1,0 +1,1 @@
+update user set password=:password where emailid=:emailid;

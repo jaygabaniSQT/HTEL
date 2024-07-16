@@ -1,0 +1,1 @@
+select emailid from user where emailid=:emailid;

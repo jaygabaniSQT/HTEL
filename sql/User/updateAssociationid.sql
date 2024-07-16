@@ -1,0 +1,1 @@
+update user set associationid=:userId,createdby=:userId where id=:userId;
