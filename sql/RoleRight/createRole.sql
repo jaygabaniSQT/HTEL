@@ -1,0 +1,1 @@
+insert into (rolename,createdby) values (:rolename,:userId);

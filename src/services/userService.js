@@ -7,12 +7,24 @@ const { executeQuery, EncryptData, DecryptData } = require('../utils/query');
 const { sendEmail } = require('../utils/sendEmail');
 const message = require('../utils/message');
 const { generateToken } = require('../utils/auth');
+const { v1: uuidv1 } = require('uuid');
 
 const userService = {
   registerService: async (req, res, next) => {
     try {
+      const { userId } = req.user;
       console.log('------------------------------');
-      const { fname, lname, emailid, mobileno } = req.body;
+      const {
+        fname,
+        lname,
+        emailid,
+        mobileno,
+        city,
+        state,
+        country,
+        address,
+        zipcode,
+      } = req.body;
 
       const checkEmailExists = await userService.checkEmailExists(emailid);
       console.log(checkEmailExists, 'checkexistemail');
@@ -37,19 +49,26 @@ const userService = {
         var image = '';
       }
       const params = {
+        clientno: uuidv1(),
+        createdby: userId,
         username: `${fname} ${lname}`,
         fname,
         lname,
         emailid,
         mobileno,
         photo: image,
+        city,
+        state,
+        country,
+        address,
+        zipcode,
       };
 
       const addUserQry = path.join(__dirname, '../../sql/User/insertUser.sql');
 
       const addUser = await executeQuery(addUserQry, params);
 
-      console.log('addUser-->', addUser.insertId);
+      console.log('addUser-->', addUser);
 
       const updateAssociationidQry = path.join(
         __dirname,
@@ -57,7 +76,7 @@ const userService = {
       );
 
       const updateUserId = await executeQuery(updateAssociationidQry, {
-        userId: addUser.insertId,
+        userId: addUser[0].insertId,
       });
 
       console.log('updateUserId-->', updateUserId);
@@ -214,12 +233,16 @@ const userService = {
           getPassword[0].password,
         );
 
+        console.log("getPassword-->",getPassword)
+
         const transformedResources = getPassword.map((user) => {
+          console.log(user)
           delete user.password;
           const isactive = user.isactive[0] === 1 ? 1 : 0;
           const isblock = user.isblock[0] === 1 ? 1 : 0;
           return { ...user, isactive, isblock };
         });
+
 
         if (comparePassword) {
           const token = generateToken({

@@ -10,9 +10,9 @@ const {
   login,
   viewProfile,
 } = require('../../controllers/userController');
-const { verifyToken } = require('../../utils/auth');
+const { verifyToken, isAdmin } = require('../../utils/auth');
 
-router.post('/register', upload.single('photo'), signUp);
+router.post('/register', verifyToken, isAdmin, upload.single('photo'), signUp);
 
 router.post('/verifyemail', verifyEmail);
 

@@ -1,4 +1,5 @@
 module.exports = {
+  //------------------------          user    ----------------------------------------------->
   REGISTER_SUCCESS: 'You are registered successfully',
   EMAIL_EXIST: 'User with this email already exist',
   INTERNAL_SERVER_ERROR: 'INTERNAL_SERVER_ERROR',
@@ -11,4 +12,9 @@ module.exports = {
   ENTER_VALID_PASSWORD: 'Enter valid password',
   TOKEN_MISSING: 'Token is missing',
   VIEW_PROFILE: 'Profile data fetched successfully',
+  ACCESS_DENIED:'Access Denied',
+
+  //--------------------------  roleright  ----------------------------------->
+
+  ROLE_CREATED: 'Role created successfully',
 };

@@ -1,0 +1,1 @@
+select associationtype,usertype from user where id=:userId and usertype='AdminUser';

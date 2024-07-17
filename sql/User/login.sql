@@ -1,1 +1,1 @@
-select * from user where emailid=:emailid and isactive=1 and isblock=0;
+select client.*,user.password,user.id,user.isblock,user.username from user left join client on client.userid=user.id  where  user.emailid=:emailid and user.isactive=1 and user.isblock=0; 

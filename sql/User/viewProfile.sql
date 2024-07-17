@@ -1,2 +1,4 @@
-select id,fname,lname,emailid,username,associationid,associationtype,mobileno,isactive,isblock,roleid,photo,
-    usertype,createdon,createdby,updatedon,updatedby from user where id=:id;
+SELECT client.*, user.isblock, user.id,user.username
+FROM user
+LEFT JOIN client ON client.userid = user.id
+WHERE user.id = :id;
