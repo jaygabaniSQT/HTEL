@@ -50,6 +50,35 @@ const roleRightService = {
 
   createRoleRight: async (req, res, next) => {
     try {
+      const { roleid, userRight } = req.body;
+
+      const arr = [];
+      for (let i = 0; i < userRight.length; i++) {
+        arr.push({
+          roleid: roleid,
+          rightid: userRight[i].rightid,
+          isview: userRight[i].isview,
+          isdelete: userRight[i].isdelete,
+          isupdate: userRight[i].isupdate,
+          iscreate: userRight[i].iscreate,
+        });
+      }
+
+      const roleExistQry = path.join(
+        __dirname,
+        '../../sql/RoleRight/insertRoleRight.sql',
+      );
+
+      arr.map(async (item) => {
+        const roleExist = await executeQuery(roleExistQry, item);
+
+        console.log(roleExist);
+      });
+
+      return res
+      .status(StatusCodes.OK)
+      .send(getResponse(1, message.ROLE_RIGHT_ADDED, {}));
+
     } catch (error) {
       console.log(error);
       return res

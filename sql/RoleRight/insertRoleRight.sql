@@ -1,0 +1,1 @@
+insert into roleright (roleid,rightid,isview,iscreate,isupdate,isdelete) values (:roleid,:rightid,:isview,:iscreate,:isupdate,:isdelete);
