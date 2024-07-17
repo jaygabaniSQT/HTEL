@@ -3,9 +3,14 @@ const router = express.Router();
 const multer = require('multer');
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
-const { createRole } = require('../../controllers/roleRightController');
-const { verifyToken } = require('../../utils/auth');
+const {
+  createRole,
+  createRoleRight,
+} = require('../../controllers/roleRightController');
+const { verifyToken, isAdmin } = require('../../utils/auth');
 
-router.post('/createrole', verifyToken, createRole);
+router.post('/createrole', verifyToken, isAdmin, createRole);
+
+router.post('/createrole', verifyToken, isAdmin, createRoleRight);
 
 module.exports = router;

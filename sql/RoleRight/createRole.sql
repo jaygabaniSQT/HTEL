@@ -1,1 +1,1 @@
-insert into (rolename,createdby) values (:rolename,:userId);
+insert into role (rolename,createdby) values (:rolename,:userId);

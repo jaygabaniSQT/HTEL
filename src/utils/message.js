@@ -12,9 +12,11 @@ module.exports = {
   ENTER_VALID_PASSWORD: 'Enter valid password',
   TOKEN_MISSING: 'Token is missing',
   VIEW_PROFILE: 'Profile data fetched successfully',
-  ACCESS_DENIED:'Access Denied',
+  ACCESS_DENIED: 'Access Denied',
 
   //--------------------------  roleright  ----------------------------------->
 
   ROLE_CREATED: 'Role created successfully',
+  ROLE_EXIST: 'Role exist',
+  RIGHT_EXIST:'Right exist'
 };

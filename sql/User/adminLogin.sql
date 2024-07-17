@@ -1,0 +1,1 @@
+select * from user where emailid=:emailid and isactive=1 and isblock=0;

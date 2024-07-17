@@ -233,16 +233,37 @@ const userService = {
           getPassword[0].password,
         );
 
-        console.log("getPassword-->",getPassword)
+        console.log('getPassword-->', getPassword);
+        let transformedResources = null;
+        if (
+          getPassword[0].usertype == 'AdminUser' &&
+          getPassword[0].associationtype == 'AdminUser'
+        ) {
+          const adminQry = path.join(
+            __dirname,
+            '../../sql/User/adminLogin.sql',
+          );
 
-        const transformedResources = getPassword.map((user) => {
-          console.log(user)
-          delete user.password;
-          const isactive = user.isactive[0] === 1 ? 1 : 0;
-          const isblock = user.isblock[0] === 1 ? 1 : 0;
-          return { ...user, isactive, isblock };
-        });
+          const getPassword = await executeQuery(adminQry, {
+            emailid,
+          });
 
+          transformedResources = getPassword.map((user) => {
+            console.log(user);
+            delete user.password;
+            const isactive = user.isactive[0] === 1 ? 1 : 0;
+            const isblock = user.isblock[0] === 1 ? 1 : 0;
+            return { ...user, isactive, isblock };
+          });
+        } else {
+          transformedResources = getPassword.map((user) => {
+            console.log(user);
+            delete user.password;
+            const isactive = user.isactive[0] === 1 ? 1 : 0;
+            const isblock = user.isblock[0] === 1 ? 1 : 0;
+            return { ...user, isactive, isblock };
+          });
+        }
 
         if (comparePassword) {
           const token = generateToken({
