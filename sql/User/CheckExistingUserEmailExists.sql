@@ -1,1 +1,1 @@
-select emailid from user where emailid=:emailid;
+select emailid,fname,lname from user where emailid=:emailid;

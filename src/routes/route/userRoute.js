@@ -6,8 +6,11 @@ const upload = multer({ storage: storage });
 const {
   signUp,
   verifyEmail,
-  updatePassword,login
+  updatePassword,
+  login,
+  viewProfile,
 } = require('../../controllers/userController');
+const { verifyToken } = require('../../utils/auth');
 
 router.post('/register', upload.single('photo'), signUp);
 
@@ -15,7 +18,10 @@ router.post('/verifyemail', verifyEmail);
 
 router.post('/setpassword', updatePassword);
 
+router.post('/updatepassword', updatePassword);
+
 router.post('/login', login);
 
+router.get('/viewProfile', verifyToken, viewProfile);
 
 module.exports = router;
