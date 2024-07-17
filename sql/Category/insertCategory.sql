@@ -1,0 +1,1 @@
+insert into category (name,code,createdby,details) values (:name,:code,:createdby,:details);

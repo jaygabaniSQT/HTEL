@@ -18,5 +18,9 @@ module.exports = {
 
   ROLE_CREATED: 'Role created successfully',
   ROLE_EXIST: 'Role exist',
-  ROLE_RIGHT_ADDED:'Role right added successfully'
+  ROLE_RIGHT_ADDED:'Role right added successfully',
+
+  //-------------------------  category -------------------------------------->
+  CATEGORY_ADDED:'Category added successfully',
+  CATEGORY_EXIST:'Category exist'
 };
