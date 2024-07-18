@@ -55,19 +55,26 @@ const categoryService = {
   deleteCategory: async (req, res, next) => {
     try {
       const { id } = req.query;
-
+      const { status } = req.body;
+      let msg = message.CATEGORY_DEACTIVE,
+        isactive = 0;
+      if (status) {
+        isactive = 1;
+        msg = message.CATEGORY_ACTIVE;
+      }
       const updateCategoryQry = path.join(
         __dirname,
         '../../sql/Category/deleteCategory.sql',
       );
 
-      const updateCategory = await executeQuery(updateCategoryQry, { id });
+      const updateCategory = await executeQuery(updateCategoryQry, {
+        id,
+        isactive,
+      });
 
       console.log('updateCategory-->', updateCategory);
 
-      return res
-        .status(StatusCodes.OK)
-        .send(getResponse(1, message.CATEGORY_DELETE, {}));
+      return res.status(StatusCodes.OK).send(getResponse(1, msg, {}));
     } catch (error) {
       console.log(error);
       return res
@@ -141,6 +148,40 @@ const categoryService = {
         return res
           .status(StatusCodes.OK)
           .send(getResponse(1, message.CATEGORY_LIST, transformedResources));
+      } else {
+        return res
+          .status(StatusCodes.OK)
+          .send(getResponse(1, message.CATEGORY_NOT_FOUND, listOfCategory));
+      }
+    } catch (error) {
+      console.log(error);
+      return res
+        .status(StatusCodes.INTERNAL_SERVER_ERROR)
+        .send(getResponse(0, message.INTERNAL_SERVER_ERROR, []));
+    }
+  },
+
+  getSingleCategory: async (req, res, next) => {
+    try {
+      const { id } = req.query;
+      const listOfCategoryQry = path.join(
+        __dirname,
+        '../../sql/Category/getSingleCategory.sql',
+      );
+
+      const listOfCategory = await executeQuery(listOfCategoryQry, { id });
+
+      console.log('listOfCategory-->', listOfCategory);
+
+      const transformedResources = listOfCategory.map((category) => {
+        const isactive = category.isactive[0] === 1 ? 1 : 0;
+        return { ...category, isactive };
+      });
+
+      if (listOfCategory.length > 0) {
+        return res
+          .status(StatusCodes.OK)
+          .send(getResponse(1, message.CATEGORY_DETAIL, transformedResources[0]));
       } else {
         return res
           .status(StatusCodes.OK)

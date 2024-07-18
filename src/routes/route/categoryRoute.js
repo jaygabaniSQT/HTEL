@@ -5,6 +5,7 @@ const {
   deleteCategory,
   updateCategory,
   listOfCategory,
+  getSingleCategory,
 } = require('../../controllers/categoryController');
 const { verifyToken, isAdmin } = require('../../utils/auth');
 
@@ -16,5 +17,6 @@ router.put('/updateCategory', verifyToken, isAdmin, updateCategory);
 
 router.get('/listOfCategory', verifyToken, isAdmin, listOfCategory);
 
+router.get('/getsinglecategory', verifyToken, isAdmin, getSingleCategory);
 
 module.exports = router;

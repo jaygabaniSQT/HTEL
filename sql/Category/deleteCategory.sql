@@ -1,1 +1,1 @@
-update category set isactive=0 where id=:id;
+update category set isactive=:isactive where id=:id;
