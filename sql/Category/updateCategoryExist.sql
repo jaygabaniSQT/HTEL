@@ -1,0 +1,1 @@
+select name from category where id!=:id and name=:name;

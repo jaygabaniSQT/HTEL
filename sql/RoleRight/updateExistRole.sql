@@ -1,0 +1,1 @@
+select rolename from role where id!=:id and rolename=:rolename;

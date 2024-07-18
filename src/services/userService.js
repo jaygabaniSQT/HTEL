@@ -234,6 +234,7 @@ const userService = {
         );
 
         console.log('getPassword-->', getPassword);
+        let roleRightList = [];
         let transformedResources = null;
         if (
           getPassword[0].usertype == 'AdminUser' &&
@@ -263,6 +264,86 @@ const userService = {
             const isblock = user.isblock[0] === 1 ? 1 : 0;
             return { ...user, isactive, isblock };
           });
+
+          if (transformedResources[0].roleid != null) {
+            const viewRoleRightQry = path.join(
+              __dirname,
+              '../../sql/RoleRight/viewRoleRight.sql',
+            );
+
+            const viewRoleRight = await executeQuery(viewRoleRightQry, {
+              id: transformedResources[0].userid,
+            });
+
+            console.log('viewRoleRight-->', viewRoleRight);
+            roleRightList = viewRoleRight;
+
+            console.log('roleRightList-->', roleRightList);
+
+            if (roleRightList.length > 0) {
+              roleRightList = roleRightList.map((roleright) => {
+                delete roleright.fname;
+                delete roleright.lname;
+                delete roleright.username;
+
+                const isfunction =
+                  roleright.isfunction === null
+                    ? null
+                    : roleright.isfunction[0] === 1
+                    ? 1
+                    : 0;
+
+                const islist =
+                  roleright.islist === null
+                    ? null
+                    : roleright.islist[0] === 1
+                    ? 1
+                    : 0;
+                const isform =
+                  roleright.isform === null
+                    ? null
+                    : roleright.isform[0] === 1
+                    ? 1
+                    : 0;
+
+                const isview =
+                  roleright.isview === null
+                    ? null
+                    : roleright.isview[0] === 1
+                    ? 1
+                    : 0;
+                const iscreate =
+                  roleright.iscreate === null
+                    ? null
+                    : roleright.iscreate[0] === 1
+                    ? 1
+                    : 0;
+                const isupdate =
+                  roleright.isupdate === null
+                    ? null
+                    : roleright.isupdate[0] === 1
+                    ? 1
+                    : 0;
+                const isdelete =
+                  roleright.isdelete === null
+                    ? null
+                    : roleright.isdelete[0] === 1
+                    ? 1
+                    : 0;
+
+                return {
+                  ...roleright,
+                  isfunction,
+                  islist,
+                  isview,
+                  isform,
+                  iscreate,
+                  isupdate,
+                  isdelete,
+                };
+              });
+            }
+          }
         }
 
         if (comparePassword) {
@@ -274,6 +355,7 @@ const userService = {
             getResponse(1, message.LOGIN_SUCCESS, {
               ...transformedResources[0],
               token,
+              roleRightList,
             }),
           );
         } else {

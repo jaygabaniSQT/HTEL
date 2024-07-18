@@ -1,0 +1,1 @@
+update category set name=:name,details=:details,updatedby=:updatedby where id=:id and isactive=1;

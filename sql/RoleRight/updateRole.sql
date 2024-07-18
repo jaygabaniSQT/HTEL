@@ -1,0 +1,1 @@
+update role set rolename=:rolename where id=:id and isactive=1;
